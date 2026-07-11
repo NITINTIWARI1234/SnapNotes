@@ -1,25 +1,16 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import Navbar from "./components/Navbar";
 
 function App() {
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/")
-      .then((response) => {
-        setMessage(response.data.message);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
-
   return (
-    <div>
-      <h1>SnapNotes</h1>
-      <p>{message}</p>
-    </div>
+    <>
+      <Navbar />
+
+      <main>
+        <h1>Turn YouTube Videos into PDF Notes</h1>
+
+        <p>Paste a YouTube URL to generate a PDF.</p>
+      </main>
+    </>
   );
 }
 
