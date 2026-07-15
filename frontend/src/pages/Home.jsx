@@ -23,7 +23,7 @@ function Home() {
                         value={youtubeUrl}
                         onChange={(e) => setYoutubeUrl(e.target.value)}
                     />
-                    <GenerateButton />
+                   <GenerateButton onClick={handleGenerate} />
                 </div>
             </main>
         </div>
