@@ -1,14 +1,19 @@
 const express = require("express");
 const cors = require("cors");
 
-const app = express();
-app.use(cors());
+const pdfRoutes = require("./routes/pdfRoutes");
 
-// Home Route
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
 app.get("/", (req, res) => {
- res.json({
-  message: "Welcome to SnapNotes API 🚀",
+  res.json({
+    message: "Welcome to SnapNotes API 🚀",
+  });
 });
-});
+
+app.use("/api/pdf", pdfRoutes);
 
 module.exports = app;
