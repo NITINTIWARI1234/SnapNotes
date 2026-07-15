@@ -1,16 +1,11 @@
-import Navbar from "./components/Navbar";
-
 function App() {
   return (
-    <>
-      <Navbar />
-
-      <main>
-        <h1>Turn YouTube Videos into PDF Notes</h1>
-
-        <p>Paste a YouTube URL to generate a PDF.</p>
-      </main>
-    </>
+   
+    <div className="min-h-screen flex items-center justify-center bg-slate-900">
+      <h1 className="text-5xl font-bold text-white">
+        SnapNotes 🚀
+      </h1>
+    </div>
   );
 }
 
