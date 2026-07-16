@@ -8,14 +8,22 @@ import VideoCard from "../components/VideoCard";
 function Home() {
     const [youtubeUrl, setYoutubeUrl] = useState("");
     const [videoData, setVideoData] = useState(null);
+    const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const handleReset = () => {
+        setYoutubeUrl("");
+        setVideoData(null);
+        setError("");
+    };
     const handleGenerate = async () => {
         if (!youtubeUrl.trim()) {
-            alert("Please enter a YouTube URL.");
+            setError("Please enter a YouTube URL.");
             return;
         }
 
         try {
+            setError("");
+            setVideoData(null);
             setLoading(true);
 
             const response = await api.post("/pdf/generate", {
@@ -25,7 +33,7 @@ function Home() {
             setVideoData(response.data.data);
 
         } catch (error) {
-            alert(
+            setError(
                 error.response?.data?.message || "Something went wrong."
             );
         } finally {
@@ -48,19 +56,33 @@ function Home() {
                 <div className="mt-10 w-full">
                     <UrlInput
                         value={youtubeUrl}
-                        onChange={(e) => setYoutubeUrl(e.target.value)}
+                        onChange={(e) => {
+                            setYoutubeUrl(e.target.value);
+                            if (error) setError("");
+                        }}
                     />
-                    <GenerateButton onClick={handleGenerate} />
+                    <GenerateButton
+                        onClick={handleGenerate}
+                        loading={loading}
+                    />
 
                     {loading && (
-                        <p className="mt-4 text-white">
-                            Loading...
-                        </p>
+                        <div className="mt-6 flex justify-center">
+                            <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
+                        </div>
                     )}
 
                     {videoData && <VideoCard video={videoData} />}
+                    {videoData && (
+                        <button
+                            onClick={handleReset}
+                            className="mt-4 rounded-lg bg-slate-700 px-6 py-2 text-white transition hover:bg-slate-600"
+                        >
+                            Check Another Video
+                        </button>
+                    )}
 
-        </div>
+                </div>
             </main >
         </div >
     );

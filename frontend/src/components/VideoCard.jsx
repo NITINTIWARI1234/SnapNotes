@@ -7,25 +7,38 @@ function formatDuration(seconds) {
 
 function VideoCard({ video }) {
   return (
-    <div className="mt-8 rounded-xl bg-slate-800 p-6 text-left shadow-lg">
+    <div className="mt-8 overflow-hidden rounded-2xl border border-slate-700 bg-slate-800 shadow-xl transition hover:shadow-2xl">
       <img
         src={video.thumbnail}
         alt={video.title}
-        className="mb-5 w-full rounded-lg"
+        className="h-64 w-full object-cover"
       />
 
-      <h2 className="text-2xl font-bold text-white">
-        {video.title}
-      </h2>
+      <div className="p-6">
+        <span className="rounded-full bg-green-600 px-3 py-1 text-sm font-semibold text-white">
+          ✓ Ready to Generate PDF
+        </span>
 
-      <p className="mt-3 text-slate-300">
-        <span className="font-semibold">Channel:</span> {video.uploader}
-      </p>
+        <h2 className="mt-4 text-2xl font-bold text-white">
+          {video.title}
+        </h2>
 
-      <p className="mt-2 text-slate-300">
-        <span className="font-semibold">Duration:</span>{" "}
-        {formatDuration(video.duration)}
-      </p>
+        <div className="mt-6 space-y-3 text-slate-300">
+          <p>
+            <span className="font-semibold text-white">
+              Channel:
+            </span>{" "}
+            {video.uploader}
+          </p>
+
+          <p>
+            <span className="font-semibold text-white">
+              Duration:
+            </span>{" "}
+            {formatDuration(video.duration)}
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
