@@ -2,9 +2,36 @@ import Navbar from "../components/Navbar";
 import UrlInput from "../components/UrlInput";
 import GenerateButton from "../components/GenerateButton";
 import { useState } from "react";
+import api from "../services/api";
+import VideoCard from "../components/VideoCard";
 
 function Home() {
     const [youtubeUrl, setYoutubeUrl] = useState("");
+    const [videoData, setVideoData] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const handleGenerate = async () => {
+        if (!youtubeUrl.trim()) {
+            alert("Please enter a YouTube URL.");
+            return;
+        }
+
+        try {
+            setLoading(true);
+
+            const response = await api.post("/pdf/generate", {
+                url: youtubeUrl,
+            });
+
+            setVideoData(response.data.data);
+
+        } catch (error) {
+            alert(
+                error.response?.data?.message || "Something went wrong."
+            );
+        } finally {
+            setLoading(false);
+        }
+    };
     return (
         <div className="min-h-screen bg-slate-900">
             <Navbar />
@@ -23,10 +50,19 @@ function Home() {
                         value={youtubeUrl}
                         onChange={(e) => setYoutubeUrl(e.target.value)}
                     />
-                   <GenerateButton onClick={handleGenerate} />
-                </div>
-            </main>
+                    <GenerateButton onClick={handleGenerate} />
+
+                    {loading && (
+                        <p className="mt-4 text-white">
+                            Loading...
+                        </p>
+                    )}
+
+                    {videoData && <VideoCard video={videoData} />}
+
         </div>
+            </main >
+        </div >
     );
 }
 
