@@ -1,3 +1,6 @@
+import formatDuration from "../utils/formatDuration";
+
+
 function formatDuration(seconds) {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
