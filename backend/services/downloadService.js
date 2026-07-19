@@ -9,7 +9,6 @@ async function downloadVideo(url) {
 
     await ytdlp(url, {
         output: outputPath,
-        format: "mp4",
     });
 
     return path.join(__dirname, "../temp");
