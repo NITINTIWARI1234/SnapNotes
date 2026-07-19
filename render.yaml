@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: snapnotes-backend
+    env: node
+    rootDir: backend
+    buildCommand: npm install && apt-get update && apt-get install -y ffmpeg
+    startCommand: npm start
