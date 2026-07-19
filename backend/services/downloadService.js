@@ -1,15 +1,22 @@
 const ytdlp = require("yt-dlp-exec");
 const path = require("path");
+const fs = require("fs");
+
+const COOKIE_PATH = path.join(__dirname, "../cookies.txt");
+
+if (process.env.YT_COOKIES_B64 && !fs.existsSync(COOKIE_PATH)) {
+    fs.writeFileSync(COOKIE_PATH, Buffer.from(process.env.YT_COOKIES_B64, "base64"));
+}
 
 async function downloadVideo(url) {
-    const outputPath = path.join(
-        __dirname,
-        "../temp/video.%(ext)s"
-    );
+    const outputPath = path.join(__dirname, "../temp/video.%(ext)s");
 
-    await ytdlp(url, {
-        output: outputPath,
-    });
+    const options = { output: outputPath };
+    if (fs.existsSync(COOKIE_PATH)) {
+        options.cookies = COOKIE_PATH;
+    }
+
+    await ytdlp(url, options);
 
     return path.join(__dirname, "../temp");
 }
