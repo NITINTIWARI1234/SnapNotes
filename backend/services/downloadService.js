@@ -20,6 +20,9 @@ async function downloadVideo(url) {
         options.jsRuntimes = `deno:${DENO_PATH}`;
         options.remoteComponents = "ejs:github";
     }
+    if (process.env.YT_PROXY) {
+        options.proxy = process.env.YT_PROXY;
+    }
 
     await ytdlp(url, options);
     return path.join(__dirname, "../temp");
